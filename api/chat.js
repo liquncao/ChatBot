@@ -48,8 +48,13 @@ export default async function handler(req, res) {
 
     const data = await upstream.json();
     if (!upstream.ok) {
-      console.error("Anthropic error:", data);
-      return res.status(502).json({ error: "Assistant unavailable right now." });
+      console.error("Anthropic error:", JSON.stringify(data));
+      return res.status(502).json({
+        error: "Assistant unavailable right now.",
+        // Setup aid — surfaces the real cause (bad key, model not enabled, no billing).
+        // Remove this `detail` line once it's working, so errors aren't public.
+        detail: (data && data.error && data.error.message) || JSON.stringify(data),
+      });
     }
 
     const reply = (data.content || [])

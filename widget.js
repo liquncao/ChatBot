@@ -122,7 +122,12 @@
         body: JSON.stringify({ messages: messages }),
       });
       var data = await r.json();
-      messages.push({ role: "assistant", content: data.reply || "Sorry — try that again." });
+      if (data.reply) {
+        messages.push({ role: "assistant", content: data.reply });
+      } else {
+        // Show the real reason during setup (e.g. bad API key, model not enabled).
+        messages.push({ role: "assistant", content: "⚠️ " + (data.detail || data.error || "Something went wrong.") });
+      }
     } catch (e) {
       messages.push({ role: "assistant", content: "Connection hiccup — try again in a second." });
     } finally {
