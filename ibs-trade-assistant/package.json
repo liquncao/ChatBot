@@ -1,0 +1,7 @@
+{
+  "name": "ibs-trade-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI trade-counter assistant for a builders merchant. Vercel backend + embeddable widget."
+}

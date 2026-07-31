@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Irish Building Supply — Product Assistant (Demo)</title>
+  <style>
+    body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#1e293b}
+    .wrap{max-width:640px;margin:0 auto;padding:64px 24px}
+    .tag{display:inline-block;background:#1F2933;color:#F5C518;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px}
+    h1{font-size:30px;margin:18px 0 10px;line-height:1.15}
+    p{font-size:16px;line-height:1.6;color:#475569}
+    .hint{margin-top:28px;padding:16px 18px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;font-size:14px;color:#334155}
+    .arrow{margin-top:24px;color:#64748b;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="tag">Live Demo</span>
+    <h1>Irish Building Supply — Product Assistant</h1>
+    <p>A trade-counter assistant that helps site visitors find the right materials, grounded in the real product range. Ask it what you're building and it'll narrow down and recommend — then capture the enquiry for the team.</p>
+    <div class="hint">
+      Try the chat bubble, bottom-right. Ask things like <em>"I'm building a garden wall, what do I need?"</em> or <em>"flooring for an attic conversion"</em>.
+    </div>
+    <p class="arrow">↘ Tap the yellow bubble to start.</p>
+  </div>
+
+  <!-- On this app's own domain the widget talks to /api/chat automatically. -->
+  <script src="/widget.js"></script>
+</body>
+</html>
