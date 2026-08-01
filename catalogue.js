@@ -12,7 +12,7 @@ export const CATALOGUE = [
   { name: '9" Cavity Block 440×215×215mm', cat: "Bricks & Blocks", price: "€2.37", spec: "Hollow cavity block for external cavity walls." },
   { name: "Concrete Stockbrick 215×100×65mm", cat: "Bricks & Blocks", price: "€0.96", spec: "Standard concrete brick." },
   { name: "Breedon Premier Plus Cement 25kg", cat: "Cement", price: "€7.68", spec: "General-purpose bagged cement for concrete, mortar, render." },
-  { name: "Siniat Plain Plasterboard 2438×1200×12.5mm", cat: "Plaster & Drywall", price: "€14.00", spec: "Standard wall & ceiling board." },
+  { name: "Siniat Plain Plasterboard 2438×1200×12.5mm", cat: "Plaster & Drywall", price: "€14.94", spec: "Standard wall & ceiling board." },
   { name: "Unilin Insulated Plasterboard (Thermal Liner) 2400×1200×50mm", cat: "Insulation", price: "€48.00", spec: "Insulated board for dry-lining cold walls." },
   { name: "Light Angle Bead (mini mesh) 2.4m", cat: "Plaster & Drywall", price: "€1.28", spec: "Corner reinforcement for plastering." },
   { name: "OSB3 Board 2400×1200×18mm", cat: "Sheet Materials", price: "€26.10", spec: "Structural board — sheathing, flooring, hoarding." },
@@ -30,20 +30,28 @@ export const CATALOGUE = [
 ];
 
 export const CATEGORIES = [
-  "Timber (rough, treated, PAO, mouldings, MDF, composite decking)",
-  "Doors (internal, fire, hollow-core, external) & door furniture",
-  "Concrete Products (bricks & blocks, lintels & cills, wall cappings, paving slabs, cement)",
-  "Insulation (mineral/Rockwool, floor/PIR, cavity, acoustic, insulated plasterboard)",
-  "Sheet Materials (OSB, plywood, MDF, cement/tile-backer board)",
-  "Plaster & Drywall (plasterboard, bagged plaster, beads, metal studs)",
-  "Adhesives, Sealants & Fillers (Soudal, silicone, CT1, tile adhesive, foam)",
-  "Fixings (screws, anchors, nails, plasterboard & insulation fixings)",
-  "Plumbing & Sanitaryware (pipe & fittings, Qualpex, bathroom, radiators)",
-  "Roofing (felts, slates, lead, guttering, fascia & soffit)",
-  "Paint & Decorating, Tools, Electrical, PPE & Workwear",
-  "Building Supplies (joist hangers, sand/gravel/aggregates, DPC/Visqueen, airtightness, radon)",
-  "Outdoor & Garden (decking, fencing, paving, garden tools)",
+  "Timber — rough (C16), treated (lengths, posts & sleepers, weather sheeting, fencing), PAO/planed (skirting & architrave, windowboard, flooring & TGV, door frames), mahogany, mouldings, stair systems, MDF lengths, composite decking",
+  "Doors — internal (primed, fire, hollow-core), external softwood, door furniture (handles, locks, hinges, closers), access panels",
+  "Concrete Products — bricks & blocks, lintels & cills, wall cappings, paving slabs, cement & lime, floor leveller, cement colours",
+  "Insulation — mineral (attic, Rockwool rolls & slabs, Metac/Omnifit), floor (Polyiso/PIR, XPS & Aeroboard), cavity wall, acoustic (Rockwool RW3/4/5), insulated plasterboard, accessories",
+  "Sheet Materials — OSB, plywood (marine, shuttering, Malaysian, EVP), MDF (standard, moisture-resistant, veneered), cement/tile-backer board, hardboard, melamine & acoustic panels",
+  "Plaster & Drywall — plasterboard, bagged & pre-mixed plaster, beads & metal studs, tapes",
+  "Adhesives, Sealants & Fillers — Soudal, silicone (neutral, sanitary, GP, all-weather, Tec7, MS polymer), CT1, tile adhesive & grout, wood/PVA/contact/epoxy glue, chemical anchor, waterproofing & tanking, expanding foam, caulk, fillers",
+  "Fixings — concrete screws, decking screws, express & insulation anchors, drywall screws, woodscrews (stainless/zinc), nails & pins (brad, framing, masonry, round wire, slate, Paslode, copper)",
+  "Plumbing & Sanitaryware — traps, radiators, copper, soil/sewer/waste pipe & fittings, Qualpex, compression & push-fit fittings, drainage & ducting, bathroom (baths, showers, basins, pans, taps)",
+  "Roofing — polycarbonate, felts, slates/perspex/lead, guttering (half-round, squareline, Niagara), fascia & soffit",
+  "Paint & Decorating — emulsion (masonry, matt, soft sheen), oil & water-based gloss/satin/undercoat, varnish & timbercare, wood preservative, primers (Zinsser), specialised (mould/heat/floor), brushes, rollers, trays, masking",
+  "Building Supplies — joist hangers, sand/gravel/aggregates, mortar, driveway & drainage pebble, Visqueen & damp course, airtightness, radon, building metals (MF ceiling)",
+  "PPE & Workwear — safety boots, workwear (Blåkläder), masks, gloves, overalls & rainsuits, eye & ear protection",
+  "Tools — hand tools, power tools (DeWalt, Einhell), drill bits & blades",
+  "Electrical — fuses, plugs/sockets/switches, cable & trunking, accessories, alarms & heaters",
+  "Outdoor & Garden — composite & timber decking, fencing & panels, paving flags, garden tools",
+  "Vents & Ducting — ducting, vent covers, access panels",
+  "Hardware & Cleaning — ladders, manhole covers, ironmongery, brushes/mops/brooms, cleaning products",
 ];
+
+// Brands stocked (useful when a customer asks by brand)
+export const BRANDS = "Knauf, Siniat, Rockwool, Unilin, Breedon, Velux, Fakro, DeWalt, Einhell, Stanley, Blåkläder, Soudal, CT1, Canadia, B&G, ECC Timber, Fleetwood.";
 
 const productLines = CATALOGUE.map(
   (p) => `- ${p.name} — ${p.price} ex-VAT. ${p.cat}. ${p.spec}`
@@ -57,7 +65,8 @@ How you work:
 - Recommend products from the STOCKED PRODUCTS list where you can, by name, with a rough quantity. If the exact item isn't listed but the category is one we carry (see RANGE), say we stock that category and offer to check exact options / pass it to the team — never invent specific products or prices.
 - Prices are guide, ex-VAT, for enquiry purposes only — final pricing and live stock come from the team.
 - You advise and narrow; you do NOT give binding structural/engineering specs. For load-bearing items (lintels, joist spans, foundations) recommend they confirm with their engineer or our team.
-- Useful facts you can share: free delivery on online orders over €299 inc VAT (Dublin & Wicklow only, own fleet); free click & collect at both stores; timber cutting service in Dún Laoghaire; phone Dún Laoghaire 01-2808620, Kilcoole 01-2234650.
+- Useful facts you can share: free delivery on online orders over €299 inc VAT (Dublin & Wicklow only, own fleet); delivery charges from €14.50, standard €29.99 under €299; most orders dispatched in 2–5 working days; free click & collect at both stores; timber cutting service in Dún Laoghaire (straight cuts); phone Dún Laoghaire 01-2808620, Kilcoole 01-2234650.
+- Brands we stock include: ${BRANDS}
 - When the visitor seems ready, offer to pass their enquiry to the team and collect their name, phone or email, and a one-line summary. Then confirm it's captured and the team will follow up.
 
 STOCKED PRODUCTS (sample):
