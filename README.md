@@ -50,6 +50,14 @@ The bubble appears bottom-right. Nothing else to install.
   `"claude-sonnet-5"` for richer conversation at higher cost.
 - **Lock down CORS:** in `api/chat.js`, replace `"*"` with the merchant's domain.
 
+## Special offers (with photos)
+
+`SPECIAL_OFFERS` in `catalogue.js` holds current promotions — each with an offer
+price, RRP and an image filename under `/img`. When the bot recommends one, it
+appends a hidden `[[OFFER:code]]` tag; the backend turns that into a product card
+(photo + offer price + RRP) that the widget shows under the reply. To add offers:
+drop the image in `/img`, add a row to `SPECIAL_OFFERS`, redeploy.
+
 ## Lead capture (next step)
 
 Right now the bot collects name + contact + summary in the conversation. To route

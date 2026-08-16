@@ -5,7 +5,7 @@
 // embed on a public site.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { SYSTEM_PROMPT } from "../catalogue.js";
+import { SYSTEM_PROMPT, SPECIAL_OFFERS } from "../catalogue.js";
 
 // Cheap + fast, fine for a product-selection bot. Swap to "claude-sonnet-5"
 // for richer conversation at higher cost.
@@ -57,13 +57,29 @@ export default async function handler(req, res) {
       });
     }
 
-    const reply = (data.content || [])
+    let reply = (data.content || [])
       .filter((b) => b.type === "text")
       .map((b) => b.text)
       .join("\n")
       .trim();
 
-    return res.status(200).json({ reply: reply || "Sorry — didn't catch that. Say it another way?" });
+    // Pull any [[OFFER:code]] tags the model appended, map them to product cards,
+    // and strip the tags out of the visible text.
+    const products = [];
+    const seen = new Set();
+    const re = /\[\[OFFER:\s*([A-Za-z0-9]+)\s*\]\]/g;
+    let m;
+    while ((m = re.exec(reply)) !== null) {
+      const code = m[1].toUpperCase();
+      const o = SPECIAL_OFFERS.find((x) => x.code.toUpperCase() === code);
+      if (o && !seen.has(o.code)) {
+        seen.add(o.code);
+        products.push({ code: o.code, name: o.name, price: o.price, rrp: o.rrp, img: "/img/" + o.img });
+      }
+    }
+    reply = reply.replace(re, "").replace(/[ \t]+\n/g, "\n").trim();
+
+    return res.status(200).json({ reply: reply || "Sorry — didn't catch that. Say it another way?", products });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Server error" });

@@ -14,14 +14,17 @@
 (function () {
   var CONFIG = window.IBSBOT_CONFIG || {};
   var ENDPOINT = CONFIG.endpoint || "/api/chat";
+  // When embedded on another domain, images must load from the app's origin, not the host site.
+  var ASSET_BASE = "";
+  try { if (/^https?:\/\//.test(ENDPOINT)) ASSET_BASE = new URL(ENDPOINT).origin; } catch (e) {}
   var NAME = CONFIG.name || "Irish Building Supply";
   var SLATE = "#1F2933", YELLOW = "#F5C518";
 
   var STARTERS = [
-    "I'm building a garden wall — what blocks?",
-    "Studwork for an internal partition",
-    "Flooring for an attic conversion",
-    "Treated timber for a deck frame?",
+    "What's on special offer?",
+    "I'm tiling a bathroom floor",
+    "Painting my garden fence",
+    "Need to mix concrete for a base",
   ];
 
   var messages = [{
@@ -56,6 +59,13 @@
     "#ibsbot-in:focus{border-color:#64748b}",
     "#ibsbot-send{padding:10px 16px;border:none;border-radius:20px;background:" + YELLOW + ";color:" + SLATE + ";font-weight:600;font-size:13.5px;cursor:pointer}",
     "#ibsbot-send:disabled{background:#e2e8f0;cursor:not-allowed}",
+    ".ibsbot-offer{margin-top:8px;display:flex;gap:10px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:9px;max-width:82%;align-items:center}",
+    ".ibsbot-offer img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#f1f5f9;flex:none}",
+    ".ibsbot-offer .oi{min-width:0}",
+    ".ibsbot-offer .on{font-size:12.5px;font-weight:600;color:#1e293b;line-height:1.25;margin-bottom:3px}",
+    ".ibsbot-offer .op{font-size:13px;font-weight:700;color:" + SLATE + "}",
+    ".ibsbot-offer .or{font-size:11px;color:#94a3b8;text-decoration:line-through;margin-left:5px;font-weight:500}",
+    ".ibsbot-offer .obadge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.04em;color:#fff;background:" + YELLOW + ";color:" + SLATE + ";padding:1px 6px;border-radius:9px;margin-left:6px;vertical-align:middle}",
     ".ibsbot-dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#94a3b8;margin:0 1px;animation:ibsbot-b 1s infinite}",
     ".ibsbot-dots span:nth-child(2){animation-delay:.15s}.ibsbot-dots span:nth-child(3){animation-delay:.3s}",
     "@keyframes ibsbot-b{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}",
@@ -94,6 +104,20 @@
       b.className = "ibsbot-b " + (m.role === "user" ? "u" : "a");
       b.textContent = m.content;
       row.appendChild(b); msgsEl.appendChild(row);
+      // product offer cards
+      if (m.products && m.products.length) {
+        m.products.forEach(function (pr) {
+          var card = document.createElement("div");
+          card.className = "ibsbot-offer";
+          var rrp = pr.rrp ? '<span class="or">RRP €' + pr.rrp + '</span>' : "";
+          var src = (pr.img && pr.img.charAt(0) === "/") ? ASSET_BASE + pr.img : pr.img;
+          card.innerHTML =
+            '<img src="' + src + '" alt="" onerror="this.style.display=\'none\'"/>' +
+            '<div class="oi"><div class="on">' + pr.name + '<span class="obadge">OFFER</span></div>' +
+            '<div class="op">€' + Number(pr.price).toFixed(2) + ' <span style="font-weight:500;color:#64748b;font-size:11px">ex VAT</span>' + rrp + '</div></div>';
+          msgsEl.appendChild(card);
+        });
+      }
     });
     if (busy) {
       var row = document.createElement("div"); row.className = "ibsbot-row a";
@@ -123,7 +147,7 @@
       });
       var data = await r.json();
       if (data.reply) {
-        messages.push({ role: "assistant", content: data.reply });
+        messages.push({ role: "assistant", content: data.reply, products: data.products || [] });
       } else {
         // Show the real reason during setup (e.g. bad API key, model not enabled).
         messages.push({ role: "assistant", content: "⚠️ " + (data.detail || data.error || "Something went wrong.") });

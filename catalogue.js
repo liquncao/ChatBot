@@ -53,6 +53,31 @@ export const CATEGORIES = [
 // Brands stocked (useful when a customer asks by brand)
 export const BRANDS = "Knauf, Siniat, Rockwool, Unilin, Breedon, Velux, Fakro, DeWalt, Einhell, Stanley, Blåkläder, Soudal, CT1, Canadia, B&G, ECC Timber, Fleetwood.";
 
+// ── SPECIAL OFFERS (current promotions, with photos) ─────────────────────────
+// price = offer price ex-VAT; rrp = normal price; img = file under /img
+export const SPECIAL_OFFERS = [
+  { code: "21282",       name: "Pacini Electric Cement Mixer 240V 140L", cat: "Plant & Tools", price: 300.00, rrp: 399, img: "21282.png",
+    blurb: "140L drum, 240V — solid site mixer for concrete and mortar." },
+  { code: "DEWDT1963QZ", name: "DeWalt 250mm Construction Circular Saw Blades (3pk)", cat: "Power Tool Accessories", price: 78.66, rrp: 89.99, img: "DEWDT1963QZ.jpeg",
+    blurb: "24T / 24T / 48T set for fast, smooth cutting of softwoods and composites on site." },
+  { code: "152990",      name: "Soudal Gun Foam Combi-Box", cat: "Adhesives & Fillers", price: 53.78, rrp: 79.99, img: "152990.jpg",
+    blurb: "6 × Soudafoam Gun Grade 750ml gap filler, plus applicator gun and cleaner." },
+  { code: "CTA20FW",     name: "Larsen Rapid Tile Adhesive White 20kg", cat: "Adhesives & Fillers", price: 19.67, rrp: 29.99, img: "CTA20FW.jpg",
+    blurb: "Polymer-modified rapid-set adhesive for walls and floors; ceramic, porcelain and stone." },
+  { code: "37628",       name: "Ronseal Fence Life Plus+ Cornflower 5L", cat: "Paint & Timbercare", price: 14.63, rrp: 21.99, img: "37628.jpg",
+    blurb: "5-year protection for sheds and fences against rain, snow, frost and UV. Colour: Cornflower." },
+  { code: "FOG40040S",   name: "Tobermore Mayfair Oat Flag 400×400×40", cat: "Paving & Landscaping", price: 7.21, rrp: 9.99, img: "FOG40040S.jpg",
+    blurb: "Premium granite-aggregate paving flag with a natural granite look. Oat colour." },
+  { code: "5571",        name: "AquaTank 10m² Tanking Kit", cat: "Waterproofing", price: 71.12, rrp: 99.99, img: "5571.png",
+    blurb: "Neo-Flex membrane kit for waterproofing damp or humid substrates — membrane, primer, SA tape and brush." },
+  { code: "BAH24422PN",  name: "Bahco Barracuda Handsaw (Orange Handle) S24422B", cat: "Hand Tools", price: 18.61, rrp: 29.99, img: "BAH24422PN.jpg",
+    blurb: "Hardpoint Barracuda handsaw for fast, clean cutting in wood." },
+];
+
+const offerLines = SPECIAL_OFFERS.map(
+  (o) => `- [${o.code}] ${o.name} — OFFER €${o.price.toFixed(2)} ex-VAT (RRP €${o.rrp}). ${o.cat}. ${o.blurb}`
+).join("\n");
+
 const productLines = CATALOGUE.map(
   (p) => `- ${p.name} — ${p.price} ex-VAT. ${p.cat}. ${p.spec}`
 ).join("\n");
@@ -67,10 +92,15 @@ How you work:
 - You advise and narrow; you do NOT give binding structural/engineering specs. For load-bearing items (lintels, joist spans, foundations) recommend they confirm with their engineer or our team.
 - Useful facts you can share: free delivery on online orders over €299 inc VAT (Dublin & Wicklow only, own fleet); delivery charges from €14.50, standard €29.99 under €299; most orders dispatched in 2–5 working days; free click & collect at both stores; timber cutting service in Dún Laoghaire (straight cuts); phone Dún Laoghaire 01-2808620, Kilcoole 01-2234650.
 - Brands we stock include: ${BRANDS}
+- We currently have a SPECIAL OFFERS promotion running (listed below). When a customer's job matches one, mention it as a current deal and give the offer price and the RRP so they see the saving.
+- IMPORTANT: whenever you recommend a specific special-offer product, append its code once at the very end of your message in double brackets, e.g. [[OFFER:21282]]. This is a hidden signal that shows the customer the product photo and price — never explain the bracket or mention it in your wording. You can append more than one if you recommend several.
 - When the visitor seems ready, offer to pass their enquiry to the team and collect their name, phone or email, and a one-line summary. Then confirm it's captured and the team will follow up.
 
 STOCKED PRODUCTS (sample):
 ${productLines}
+
+CURRENT SPECIAL OFFERS:
+${offerLines}
 
 RANGE (full categories we carry):
 ${CATEGORIES.map((c) => "- " + c).join("\n")}`;
