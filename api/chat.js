@@ -74,7 +74,7 @@ export default async function handler(req, res) {
       const o = SPECIAL_OFFERS.find((x) => x.code.toUpperCase() === code);
       if (o && !seen.has(o.code)) {
         seen.add(o.code);
-        products.push({ code: o.code, name: o.name, price: o.price, rrp: o.rrp, img: "/img/" + o.img });
+        products.push({ code: o.code, name: o.name, price: o.price, rrp: o.rrp, img: "/img/" + o.img, blurb: o.blurb });
       }
     }
     reply = reply.replace(re, "").replace(/[ \t]+\n/g, "\n").trim();
