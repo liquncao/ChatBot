@@ -59,6 +59,11 @@
     "#ibsbot-in:focus{border-color:#64748b}",
     "#ibsbot-send{padding:10px 16px;border:none;border-radius:20px;background:" + YELLOW + ";color:" + SLATE + ";font-weight:600;font-size:13.5px;cursor:pointer}",
     "#ibsbot-send:disabled{background:#e2e8f0;cursor:not-allowed}",
+    ".ibsbot-b.a strong{font-weight:700;color:#0f172a}",
+    ".ibsbot-b .ibsbot-ul{margin:4px 0 0 0;padding-left:17px}",
+    ".ibsbot-b .ibsbot-ul li{margin:2px 0}",
+    ".ibsbot-b .ibsbot-sp{height:6px}",
+    ".ibsbot-b .ibsbot-ln{margin:0}",
     ".ibsbot-offer{margin-top:8px;display:flex;gap:10px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:9px;max-width:82%;align-items:center}",
     ".ibsbot-offer img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#f1f5f9;flex:none}",
     ".ibsbot-offer .oi{min-width:0}",
@@ -95,6 +100,26 @@
   var inputEl = panel.querySelector("#ibsbot-in");
   var sendEl = panel.querySelector("#ibsbot-send");
 
+  // Minimal, safe markdown → HTML (escape first, then a small subset).
+  function mdToHtml(t) {
+    t = String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/(^|[\s(])_([^_]+)_/g, "$1<em>$2</em>");
+    var lines = t.split(/\n/), html = "", inList = false;
+    lines.forEach(function (ln) {
+      var s = ln.trim();
+      if (/^[-•*]\s+/.test(s)) {
+        if (!inList) { html += '<ul class="ibsbot-ul">'; inList = true; }
+        html += "<li>" + s.replace(/^[-•*]\s+/, "") + "</li>";
+      } else {
+        if (inList) { html += "</ul>"; inList = false; }
+        html += s === "" ? '<div class="ibsbot-sp"></div>' : '<p class="ibsbot-ln">' + s + "</p>";
+      }
+    });
+    if (inList) html += "</ul>";
+    return html;
+  }
+
   function render() {
     msgsEl.innerHTML = "";
     messages.forEach(function (m) {
@@ -102,7 +127,8 @@
       row.className = "ibsbot-row " + (m.role === "user" ? "u" : "a");
       var b = document.createElement("div");
       b.className = "ibsbot-b " + (m.role === "user" ? "u" : "a");
-      b.textContent = m.content;
+      if (m.role === "user") b.textContent = m.content;
+      else b.innerHTML = mdToHtml(m.content);
       row.appendChild(b); msgsEl.appendChild(row);
       // product offer cards
       if (m.products && m.products.length) {
