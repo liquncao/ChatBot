@@ -1,21 +1,30 @@
-# TradeMate chatbot — Vercel
+# TradeMate — complete Vercel replacement
 
-This is the backend half of the agreed setup: website on Netlify, chatbot on Vercel. The existing demo-booking service stays unchanged.
+This package now includes BOTH the branded demo page and chatbot backend. It replaces the earlier backend-only download. The main Firespoon website stays on Netlify.
 
-## Deploy
+## Update the existing Vercel project
 
-1. Unzip and put this folder's contents at the root of your Vercel chatbot project/repository. Import with the Other framework preset, no build command and no output-directory override. The function is `api/chat.js`.
-2. Keep or add ANTHROPIC_API_KEY in the Vercel project's environment variables for Production. Never put the key in the website, repository or download.
-3. Set ALLOWED_ORIGINS to a comma-separated list of the exact website origins, including the Netlify test domain, https://firespoon.ie and https://www.firespoon.ie. No trailing slash. Optional ANTHROPIC_MODEL can override the existing model if your account needs a different one.
-4. Deploy, then use a PUBLIC production URL. The previously supplied deployment redirected to Vercel login. Website visitors must be able to reach both POST and OPTIONS /api/chat without signing in.
-5. Put that public URL followed by /api/chat in the website's public/chatbot/config.js and deploy the website.
+1. Unzip this archive. Replace the contents of the existing Vercel project's connected repository with these files at the repository root. This index.html replaces the old Irish Building Supply homepage. Remove the obsolete widget.js from that repository; the new page uses demo.js instead. Keep your repository's .git directory.
+2. Use the Other framework preset with no build command and no output directory override. Keep the existing irishhardware.vercel.app project/domain; there is no need to create a new project.
+3. Keep ANTHROPIC_API_KEY in Vercel's Production environment variables. Do not put the key in any file. If ALLOWED_ORIGINS is set, use:
+   https://firespoon.netlify.app,https://firespoon.ie,https://www.firespoon.ie,https://irishhardware.vercel.app
+4. Deploy/redeploy. Open https://irishhardware.vercel.app/ in a private window. It should show TradeMate by Firespoon, with an inline conversation panel, rather than the old merchant page and yellow chat bubble.
+5. Test a message, a follow-up and a product request. No Vercel login should be required. Confirm the chatbot also works from the Netlify website.
 
-## Verify
+## What connects where
 
-- Opening /api/chat without signing in should return JSON `Method not allowed` (HTTP 405), not a login page. This alone does not test the AI key.
-- From the Netlify website, ask a question, send a follow-up and request products. Confirm successful replies and images.
-- Check provider billing/model access and host usage limits before launch. Origin restrictions are not a substitute for rate or spend limits.
+- This Vercel demo calls its own /api/chat endpoint.
+- The Netlify website calls https://irishhardware.vercel.app/api/chat (already set in the latest website download).
+- The demo's Firespoon links go to https://firespoon.netlify.app/.
+- Booking stays on the main website and uses the existing booking service.
 
-The assistant identifies itself as a Firespoon/TradeMate demo. It must not claim to submit orders or capture enquiries. Demo requests go through the website's separate existing booking form.
+## Files
 
-Tests: Node 22+, `npm test`. Tests mock the AI service; they do not validate live credentials, deployment protection or billing. The product catalogue and images are bundled; no secret is included.
+index.html, styles.css, demo.js: new branded demo.
+api/chat.js, catalogue.js: server-side AI integration and sample catalogue.
+chatbot/: browser-safe sample data, configuration and product photos.
+img/: product photos retained for compatibility with other API clients.
+
+This is an AI demo using sample prices, not live merchant stock. It does not submit orders or capture leads in chat. The API key remains server-side. Browser inputs and model text are rendered as text, not executable HTML.
+
+Run local tests with npm test on Node 22+. Tests mock the AI provider; live model access, billing and deployment settings need testing after upload. No deployment or paid AI call was performed while preparing this archive.

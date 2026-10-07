@@ -1,10 +1,11 @@
 import {SYSTEM_PROMPT, SPECIAL_OFFERS} from '../catalogue.js';
-const defaults=['https://firespoon.ie','https://www.firespoon.ie','https://firespoon-redesign.liqun-cao.chatgpt.site'];
+const defaults=['https://firespoon.netlify.app','https://irishhardware.vercel.app','https://firespoon.ie','https://www.firespoon.ie','https://firespoon-redesign.liqun-cao.chatgpt.site'];
 export default async function handler(req,res) {
   const origin=req.headers?.origin;
   const allowed=(process.env.ALLOWED_ORIGINS||defaults.join(',')).split(',').map(s=>s.trim()).filter(Boolean);
   res.setHeader('Vary','Origin');res.setHeader('Cache-Control','no-store');
-  if(origin&&!allowed.includes(origin))return res.status(403).json({error:'Origin not allowed'});
+  const sameOrigin=origin&&req.headers?.host&&origin===`https://${req.headers.host}`;
+  if(origin&&!sameOrigin&&!allowed.includes(origin))return res.status(403).json({error:'Origin not allowed'});
   if(origin)res.setHeader('Access-Control-Allow-Origin',origin);
   res.setHeader('Access-Control-Allow-Methods','POST, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type');
   if(req.method==='OPTIONS')return res.status(204).end();

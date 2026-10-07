@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Irish Building Supply — Product Assistant (Demo)</title>
-  <style>
-    body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#1e293b}
-    .wrap{max-width:640px;margin:0 auto;padding:64px 24px}
-    .tag{display:inline-block;background:#1F2933;color:#F5C518;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px}
-    h1{font-size:30px;margin:18px 0 10px;line-height:1.15}
-    p{font-size:16px;line-height:1.6;color:#475569}
-    .hint{margin-top:28px;padding:16px 18px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;font-size:14px;color:#334155}
-    .arrow{margin-top:24px;color:#64748b;font-size:14px}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <span class="tag">Live Demo</span>
-    <h1>Irish Building Supply — Product Assistant</h1>
-    <p>A trade-counter assistant that helps site visitors find the right materials, grounded in the real product range. Ask it what you're building and it'll narrow down and recommend — then capture the enquiry for the team.</p>
-    <div class="hint">
-      Try the chat bubble, bottom-right. Ask <em>"what's on special offer?"</em> to see this week's deals with photos, or describe your job — <em>"I'm tiling a bathroom floor"</em> — for a recommendation.
-    </div>
-    <p class="arrow">↘ Tap the yellow bubble to start.</p>
-  </div>
-
-  <!-- On this app's own domain the widget talks to /api/chat automatically. -->
-  <script src="/widget.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Try TradeMate by Firespoon: a product assistant for hardware shops and builders’ merchants."><title>TradeMate — Product assistant by Firespoon</title><link rel="icon" href="/firespoon-wordmark.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"></head>
+<body><a class="skip" href="#demo-input">Skip to chat</a><header class="shell header"><a href="https://firespoon.netlify.app/" aria-label="Firespoon website"><img src="/firespoon-wordmark.svg" alt="Firespoon" width="130" height="41"></a><a class="back" href="https://firespoon.netlify.app/trademate/">Explore TradeMate <span aria-hidden="true">↗</span></a></header>
+<main class="shell layout" id="demo"><section class="intro"><div class="eyebrow">TRADEMATE BY FIRESPOON</div><h1>Good questions.<br><em>Useful answers.</em></h1><p class="lead">A helping hand at the trade counter.</p><p>Tell TradeMate about the job, explore materials and see how a conversation can help customers find what they need.</p><div class="prompt-list" role="group" aria-label="Start a conversation"><button class="prompt" data-topic="all" type="button">Show me some products <span>↗</span></button><button class="prompt" data-topic="tiling" type="button">I’m tiling a bathroom <span>↗</span></button><button class="prompt" data-topic="garden" type="button">I’m working on my garden <span>↗</span></button><button class="prompt" data-topic="tools" type="button">Help me choose tools <span>↗</span></button></div><p class="note" id="chat-description">An AI demonstration using a sample catalogue. Prices exclude VAT. Live stock and ordering are not connected.</p></section>
+<section class="demo-panel" aria-label="TradeMate assistant"><div class="demo-toolbar"><div class="identity"><span class="mark" aria-hidden="true">T</span><div><strong>TradeMate</strong><small>Product assistant</small></div></div><span id="demo-status" role="status">Ready</span></div><div id="demo-chat" class="demo-chat" role="log" aria-label="Conversation" aria-live="polite"></div><form id="chat-form" class="demo-composer"><label class="sr-only" for="demo-input">Your message to TradeMate</label><input id="demo-input" maxlength="2000" placeholder="What are you working on?" autocomplete="off" aria-describedby="chat-privacy"><button id="demo-send" type="submit">Send</button></form><p id="chat-privacy" class="chat-caption">AI demo. Please don’t share personal details. No orders or enquiries are submitted here.</p><button id="chat-reset" class="chat-reset" type="button">Start a new conversation</button><noscript><p>Please enable JavaScript to use the assistant.</p></noscript></section></main>
+<footer class="shell footer"><span>TradeMate is a product by Firespoon.</span><a href="https://firespoon.netlify.app/#contact">Talk to our team</a></footer><script src="/demo.js" type="module"></script></body></html>

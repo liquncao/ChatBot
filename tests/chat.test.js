@@ -26,3 +26,9 @@ test('backend request boundaries and offer extraction',async()=>{
  const failure=await call(body);assert.equal(failure.code,502);assert.doesNotMatch(JSON.stringify(failure.body),/secret/);
  }finally{globalThis.fetch=originalFetch;delete process.env.ANTHROPIC_API_KEY;}
 });
+
+test('Vercel demo accepts its own origin with a restricted external allowlist', async()=>{
+ process.env.ALLOWED_ORIGINS='https://firespoon.netlify.app';
+ const res={headers:{},setHeader(k,v){this.headers[k]=v;},status(n){this.code=n;return this;},end(){return this;},json(b){this.body=b;return this;}};
+ try{await handler({method:'OPTIONS',headers:{origin:'https://irishhardware.vercel.app',host:'irishhardware.vercel.app'}},res);assert.equal(res.code,204);assert.equal(res.headers['Access-Control-Allow-Origin'],'https://irishhardware.vercel.app');}finally{delete process.env.ALLOWED_ORIGINS;}
+});
