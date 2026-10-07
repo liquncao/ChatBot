@@ -1,3 +1,4 @@
+import { formatReply } from './chatbot/format.js';
 import { SPECIAL_OFFERS } from './chatbot/catalogue.js';
 import { chatConfig } from './chatbot/config.js';
 
@@ -21,7 +22,8 @@ const known = new Map(SPECIAL_OFFERS.map(p=>[p.code,p]));
 function bubble(text, role='assistant') {
   const el=document.createElement('div');
   el.className='demo-msg '+(role==='user'?'user':'bot');
-  el.textContent=text;
+  if(role==='user') el.textContent=text;
+  else el.innerHTML=formatReply(text);
   chat.append(el);
 }
 function cards(products) {
@@ -70,7 +72,7 @@ async function submit(text) {
 }
 prompts.forEach(b=>b.addEventListener('click',()=>chatConfig.liveEnabled?submit(topics[b.dataset.topic].question):preview(b.dataset.topic)));
 form.addEventListener('submit',e=>{e.preventDefault();submit(input.value);});
-function start() {messages=[];chat.replaceChildren();bubble('Welcome to the TradeMate product assistant demo. What are you working on?');status.textContent='Ready';}
+function start() {messages=[];chat.replaceChildren();bubble('Hi, what are you working on? I’ll help you find suitable materials.');status.textContent='Ready';}
 reset.addEventListener('click',()=>{if(!busy){start();input.value='';input.focus();}});
 if(chatConfig.liveEnabled) {
   form.hidden=false;reset.hidden=false;

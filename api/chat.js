@@ -14,6 +14,11 @@ export default async function handler(req,res) {
   try{if(typeof body==='string')body=JSON.parse(body);}catch{return res.status(400).json({error:'Invalid request'});}
   const messages=body?.messages;
   if(!Array.isArray(messages)||!messages.length||messages.length>40||messages.some((m,i)=>!m||m.role!==(i%2===0?'user':'assistant')||typeof m.content!=='string'||!m.content.trim()||m.content.length>4000)||messages.at(-1).role!=='user'||messages.reduce((n,m)=>n+m.content.length,0)>24000)return res.status(400).json({error:'Invalid conversation'});
+  const browse=/^(what products can you show me|show me (some )?products|browse products)[?.!]*$/i.test(messages.at(-1).content.trim());
+  if(browse){
+    const products=['CTA20FW','21282','37628'].map(code=>SPECIAL_OFFERS.find(p=>p.code===code)).filter(Boolean).map(p=>({code:p.code,name:p.name,price:p.price,img:'/img/'+p.img,blurb:p.blurb}));
+    return res.status(200).json({reply:'Here are a few examples from the sample catalogue. What are you working on?',products});
+  }
   if(!process.env.ANTHROPIC_API_KEY)return res.status(503).json({error:'Assistant unavailable'});
   try {
     const upstream=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':process.env.ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:process.env.ANTHROPIC_MODEL||'claude-haiku-4-5-20251001',max_tokens:700,system:SYSTEM_PROMPT,messages:messages.map(({role,content})=>({role,content}))}),signal:AbortSignal.timeout(25000)});
