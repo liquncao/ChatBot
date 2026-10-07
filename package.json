@@ -1,7 +1,12 @@
 {
-  "name": "ibs-trade-assistant",
+  "name": "trademate-vercel-backend",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "AI trade-counter assistant for a builders merchant. Vercel backend + embeddable widget."
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/chat.test.js"
+  }
 }
